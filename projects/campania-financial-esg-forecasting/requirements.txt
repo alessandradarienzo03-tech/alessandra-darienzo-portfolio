@@ -1,0 +1,15 @@
+numpy
+pandas
+matplotlib
+scikit-learn
+xgboost
+prophet
+tensorflow
+openpyxl
+langchain
+langchain-community
+langchain-groq
+langgraph
+duckduckgo-search
+python-dotenv
+jupyter
