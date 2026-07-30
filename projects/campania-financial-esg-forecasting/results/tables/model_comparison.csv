@@ -1,0 +1,6 @@
+model,mse,ranking
+Random Forest,0.00285,1
+LSTM,0.00287,2
+XGBoost,0.00292,3
+Linear Regression,0.00299,4
+Prophet,0.00392,5
