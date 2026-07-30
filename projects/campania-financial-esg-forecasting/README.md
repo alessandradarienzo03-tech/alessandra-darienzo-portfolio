@@ -12,6 +12,13 @@ combining economic strength with sustainability potential.
 The analysis was developed as part of an academic data science challenge at
 the University of Naples Federico II.
 
+## Research Paper
+
+The complete methodology, experimental design and results are documented in
+the accompanying research paper:
+
+[Read the research paper](paper/predictive-financial-esg-forecasting-paper.pdf)
+
 ## Project Highlights
 
 - Processed an initial dataset of 12,422 private companies and 117 features.
