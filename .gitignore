@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets
+.env
+.env.*
+*.key
+
+# Proprietary datasets
+*.xls
+*.xlsx
+*.parquet
+*.csv
+
+# Allow explicitly approved synthetic samples
+!projects/**/data/sample/*.csv
+
+# Model artifacts
+*.pkl
+*.joblib
+*.h5
+*.keras
