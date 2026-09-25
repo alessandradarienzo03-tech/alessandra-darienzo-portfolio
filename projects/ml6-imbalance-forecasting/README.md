@@ -93,6 +93,15 @@ The final architecture intentionally explores a trade-off between minimizing
 average RMSE and improving behaviour on economically important large
 imbalances.
 
+### Result Visualizations
+
+![Overall test RMSE comparison](results/overall_rmse_comparison.png)
+
+![Extreme-event performance](results/extreme_event_performance.png)
+
+Detailed aggregate metrics and the extreme-event classifier results are
+available in [`results/`](results/).
+
 ## Feature Engineering
 
 The model uses several feature families:
@@ -156,7 +165,14 @@ The workshop therefore connects forecasting to:
 | Notebook | Description |
 |---|---|
 | [`01_core_imbalance_forecasting.ipynb`](notebooks/01_core_imbalance_forecasting.ipynb) | Main forecasting pipeline: leakage-aware features, persistence baseline, XGBoost, LightGBM, ensembling, extreme-event modelling and SHAP |
-| `02_economic_simulation_and_battery_steering.ipynb` | Economic simulation and battery-steering logic based on imbalance forecasts |
+| [`02_economic_simulation_and_battery_steering.ipynb`](notebooks/02_economic_simulation_and_battery_steering.ipynb) | Economic simulation and battery-steering logic based on imbalance forecasts |
+
+## Documentation
+
+Domain context, electricity-market roles, System Imbalance structure and the
+forecasting rationale are documented in:
+
+[`docs/imbalance_forecasting_knowledge.md`](docs/imbalance_forecasting_knowledge.md)
 
 ## Data
 
@@ -195,8 +211,13 @@ ml6-imbalance-forecasting/
 │   ├── 01_core_imbalance_forecasting.ipynb
 │   └── 02_economic_simulation_and_battery_steering.ipynb
 ├── docs/
+│   ├── README.md
 │   └── imbalance_forecasting_knowledge.md
 └── results/
+    ├── README.md
+    ├── overall_rmse_comparison.png
+    ├── extreme_event_performance.png
+    └── extreme_classifier_performance.png
 ```
 
 ## Key Takeaways
@@ -215,4 +236,3 @@ The strongest improvements came from combining:
 
 The result is a forecasting pipeline designed around both predictive accuracy
 and the economic consequences of forecast errors.
-
