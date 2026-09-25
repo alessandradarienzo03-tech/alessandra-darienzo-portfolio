@@ -1,10 +1,10 @@
 """Business-driven segmentation utilities for private companies.
 
 The functions in this module assign companies to interpretable groups based
-on firm size, economic activity and ESG performance.
+on firm size, economic activity, ESG performance and employment dynamics.
 
-These groups are defined through business rules rather than unsupervised
-clustering algorithms.
+These groups are defined through deterministic business rules rather than
+unsupervised clustering algorithms.
 """
 
 from __future__ import annotations
@@ -18,7 +18,7 @@ import pandas as pd
 FIRM_SIZE_LABELS: Final[list[str]] = [
     "micro",
     "small",
-    "medium_large",
+    "medium/large",
 ]
 
 ATECO_SECTIONS: Final[dict[str, list[str]]] = {
@@ -61,12 +61,12 @@ MACRO_SECTOR_MAP: Final[dict[str, str]] = {
 
 
 def assign_firm_size(employees: pd.Series) -> pd.Series:
-    """Assign companies to size categories using employee counts.
+    """Assign companies to employee-based size categories.
 
     Categories:
         - micro: 0–9 employees
         - small: 10–49 employees
-        - medium_large: 50 or more employees
+        - medium/large: 50 or more employees
     """
     numeric_employees = pd.to_numeric(employees, errors="coerce")
 
@@ -87,17 +87,20 @@ def build_ateco_sector_mapping() -> dict[str, str]:
     }
 
 
-def assign_economic_sector(ateco_codes: pd.Series) -> pd.Series:
-    """Map ATECO codes to interpretable economic sectors."""
-    ateco_divisions = (
+def extract_ateco_division(ateco_codes: pd.Series) -> pd.Series:
+    """Extract the first two numeric digits from ATECO codes."""
+    return (
         ateco_codes.astype("string")
-        .str.replace(r"\.0$", "", regex=True)
-        .str.zfill(2)
+        .str.replace(r"\D", "", regex=True)
         .str[:2]
+        .replace("", pd.NA)
     )
 
-    sector_mapping = build_ateco_sector_mapping()
-    return ateco_divisions.map(sector_mapping)
+
+def assign_economic_sector(ateco_codes: pd.Series) -> pd.Series:
+    """Map ATECO codes to interpretable economic sectors."""
+    divisions = extract_ateco_division(ateco_codes)
+    return divisions.map(build_ateco_sector_mapping())
 
 
 def assign_macro_sector(sectors: pd.Series) -> pd.Series:
@@ -106,30 +109,26 @@ def assign_macro_sector(sectors: pd.Series) -> pd.Series:
 
 
 def assign_esg_rating(esg_scores: pd.Series) -> pd.Series:
-    """Convert normalized ESG scores into four ordered rating groups."""
+    """Convert normalized ESG scores into four ordered analytical groups."""
     numeric_scores = pd.to_numeric(esg_scores, errors="coerce")
 
     return pd.cut(
         numeric_scores,
-        bins=[-np.inf, 0.25, 0.50, 0.75, np.inf],
+        bins=[0.00, 0.25, 0.50, 0.75, 1.00],
         labels=["D", "C", "B", "A"],
         include_lowest=True,
     )
 
 
-def assign_employment_trend(
+def calculate_employment_cagr(
     current_employees: pd.Series,
     past_employees: pd.Series,
     years: int = 3,
-    threshold: float = 0.10,
 ) -> pd.Series:
-    """Classify employment trends using annualized growth.
+    """Calculate annualized employment growth over the requested horizon."""
+    if years <= 0:
+        raise ValueError("years must be greater than zero")
 
-    Companies are classified as:
-        - growing: CAGR >= threshold
-        - declining: CAGR <= -threshold
-        - stable: otherwise
-    """
     current = pd.to_numeric(current_employees, errors="coerce")
     past = pd.to_numeric(past_employees, errors="coerce")
 
@@ -140,13 +139,35 @@ def assign_employment_trend(
         current.loc[valid] / past.loc[valid]
     ) ** (1 / years) - 1
 
+    return cagr
+
+
+def assign_employment_trend(
+    current_employees: pd.Series,
+    past_employees: pd.Series,
+    years: int = 3,
+    threshold: float = 0.10,
+) -> pd.Series:
+    """Classify employment trends using annualized growth.
+
+    Categories:
+        - growing: CAGR > threshold
+        - declining: CAGR < -threshold
+        - stable: CAGR within [-threshold, +threshold]
+    """
+    cagr = calculate_employment_cagr(
+        current_employees=current_employees,
+        past_employees=past_employees,
+        years=years,
+    )
+
     return pd.Series(
         np.select(
-            [cagr >= threshold, cagr <= -threshold],
+            [cagr > threshold, cagr < -threshold],
             ["growing", "declining"],
             default="stable",
         ),
-        index=current.index,
+        index=cagr.index,
         dtype="string",
     ).mask(cagr.isna())
 
@@ -156,9 +177,19 @@ def add_company_segments(
     employee_column: str,
     ateco_column: str,
     esg_column: str | None = None,
+    past_employee_column: str | None = None,
+    employment_years: int = 3,
+    employment_threshold: float = 0.10,
 ) -> pd.DataFrame:
     """Return a copy of the dataset enriched with company segments."""
     required_columns = {employee_column, ateco_column}
+
+    if esg_column is not None:
+        required_columns.add(esg_column)
+
+    if past_employee_column is not None:
+        required_columns.add(past_employee_column)
+
     missing_columns = required_columns.difference(dataframe.columns)
 
     if missing_columns:
@@ -173,9 +204,19 @@ def add_company_segments(
     result["macro_sector"] = assign_macro_sector(result["economic_sector"])
 
     if esg_column is not None:
-        if esg_column not in result.columns:
-            raise KeyError(f"Missing ESG column: {esg_column}")
-
         result["esg_rating"] = assign_esg_rating(result[esg_column])
+
+    if past_employee_column is not None:
+        result["employment_cagr"] = calculate_employment_cagr(
+            current_employees=result[employee_column],
+            past_employees=result[past_employee_column],
+            years=employment_years,
+        )
+        result["employment_growth_class"] = assign_employment_trend(
+            current_employees=result[employee_column],
+            past_employees=result[past_employee_column],
+            years=employment_years,
+            threshold=employment_threshold,
+        )
 
     return result
