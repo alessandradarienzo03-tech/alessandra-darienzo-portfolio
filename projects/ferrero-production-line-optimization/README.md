@@ -45,6 +45,8 @@ The four production stages are:
 The MATLAB model converts machine speed, installed capacity, product weight
 and OEE into effective throughput and cycle time.
 
+![Effective throughput by stage](results/throughput_by_stage.png)
+
 | Stage | Machines | OEE | Effective throughput (qls/shift) | Annual capacity (qls) |
 |---|---:|---:|---:|---:|
 | Modeller | 1 | 0.80 | 80.64 | 20,160 |
@@ -62,6 +64,8 @@ annual capacity remains below the 20,000 qls target.
 
 An integer linear optimization model is used to determine the minimum number
 of additional machines required in Primary and Secondary Packaging.
+
+![Cycle-time rebalancing](results/cycle_time_before_after.png)
 
 ### Decision variables
 
@@ -112,6 +116,8 @@ can increase WIP, space requirements and operational complexity.
 
 ## Predictive Maintenance Prototype
 
+![Predictive maintenance proof of concept](results/predictive_maintenance_simulation.png)
+
 A MATLAB proof of concept simulates progressive equipment degradation and
 introduces:
 
@@ -158,6 +164,16 @@ The proposed design emphasizes:
 This section is presented as a design concept rather than a quantitatively
 validated engineering redesign.
 
+## Documentation
+
+Detailed modelling assumptions and methodology are documented in:
+
+[`docs/methodology.md`](docs/methodology.md)
+
+Aggregate outputs and visualizations are available in:
+
+[`results/`](results/)
+
 ## Repository Structure
 
 ```text
@@ -171,6 +187,10 @@ ferrero-production-line-optimization/
 ├── docs/
 │   └── methodology.md
 └── results/
+    ├── README.md
+    ├── throughput_by_stage.png
+    ├── cycle_time_before_after.png
+    └── predictive_maintenance_simulation.png
 ```
 
 ## Technology Stack
@@ -190,3 +210,4 @@ workflow:
 
 **measure → identify the constraint → optimize capacity → stabilize flow →
 anticipate failures → evaluate implementation trade-offs.**
+
