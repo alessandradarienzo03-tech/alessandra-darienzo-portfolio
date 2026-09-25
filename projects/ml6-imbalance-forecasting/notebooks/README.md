@@ -11,7 +11,7 @@ model evaluation and economic simulation developed during the workshop.
 | Notebook | Description | Status |
 |---|---|---|
 | [`01_core_imbalance_forecasting.ipynb`](01_core_imbalance_forecasting.ipynb) | Core forecasting pipeline including leakage-aware feature engineering, persistence baseline, XGBoost, LightGBM, ensembling, extreme-event modelling and SHAP-based interpretation | Available |
-| `02_economic_simulation_and_battery_steering.ipynb` | Economic simulation translating imbalance forecasts into battery-steering decisions and profit-oriented evaluation | Coming next |
+| [`02_economic_simulation_and_battery_steering.ipynb`](02_economic_simulation_and_battery_steering.ipynb) | Economic simulation translating imbalance forecasts into battery-steering decisions and BRP settlement impact | Available |
 
 ## Modelling Focus
 
