@@ -30,16 +30,6 @@ material used to frame the analysis.
    Management and Production Engineering Review, 6(2), 63–72.  
    DOI: `10.1515/mper-2015-0018`
 
-## Domain-Specific Reference
-
-6. **Capezza, C., Cesaro, G., Lepore, A., Palumbo, B., & Rossi, E.**  
-   *A Case Study to Monitor Parallel-Connected Ni-Cd Batteries on EMU Trains through Compositional Data Control Charts.*  
-   University of Naples Federico II / Hitachi Rail STS case-study manuscript supplied with the project material.
-
-This paper is especially relevant because it addresses the same engineering
-setting: parallel Ni-Cd batteries on an EMU train monitored through
-compositional statistical process control.
-
 ## Battery Monitoring Background
 
 7. **Semeraro, C., Caggiano, M., Olabi, A.-G., & Dassisti, M. (2022).**  
