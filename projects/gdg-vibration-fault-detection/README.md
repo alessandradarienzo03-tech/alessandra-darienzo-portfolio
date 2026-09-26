@@ -1,6 +1,6 @@
 # Physics-Informed Vibration Fault Detection
 
-**GDG KU Leuven*
+**GDG KU Leuven**
 
 A condition-monitoring project for detecting structural mounting faults from
 three-axis vibration signals.
