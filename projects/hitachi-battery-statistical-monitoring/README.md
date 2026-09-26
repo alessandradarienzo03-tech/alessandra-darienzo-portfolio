@@ -2,9 +2,14 @@
 
 **Compositional Data Analysis & Multivariate Statistical Process Control**
 
-An industrial statistics project focused on detecting abnormal load
-redistribution and degradation patterns in parallel-connected Nickel–Cadmium
-batteries installed on a high-speed train.
+A quantitative industrial-statistics project focused on detecting abnormal
+load redistribution and degradation patterns in parallel-connected
+Nickel–Cadmium batteries installed on a high-speed train.
+
+The project combines **Compositional Data Analysis (CoDa)**, **ILR
+transformations**, **Mahalanobis distance**, **Hotelling-type T² control
+charts**, **Phase I / Phase II statistical process monitoring**, and
+**multivariate normality diagnostics**.
 
 The project was developed within the **Statistical Lab for Industrial Data
 Analysis** at the University of Naples Federico II using Hitachi Rail battery
@@ -55,6 +60,8 @@ robust cycle-level indicator that reduces high-frequency noise.
 
 ## Why Standard Monitoring Is Not Enough
 
+![Total median current by cycle](results/total_current_by_cycle.png)
+
 The total current varies because the external electrical demand changes over
 time.
 
@@ -100,6 +107,8 @@ The project therefore uses an **Isometric Log-Ratio (ILR) transformation** to
 map the four-part composition into three unconstrained Euclidean coordinates.
 
 ## Statistical Process Monitoring
+
+![Compositional T² control chart](results/coda_t2_control_chart.png)
 
 The transformed observations are monitored with a compositional
 **Hotelling-type T² control chart**.
@@ -149,6 +158,8 @@ control limit.
 
 ## Main Findings
 
+![Median current by battery and cycle](results/median_current_by_cycle.png)
+
 The control-chart analysis identifies two important patterns:
 
 ### 1. Temporary anomalous regime
@@ -188,6 +199,8 @@ The compositional framework therefore provides a monitoring signal that is:
 - interpretable in terms of load redistribution.
 
 ## Voltage Sensitivity Analysis
+
+![Voltage sensitivity control chart](results/voltage_control_chart.png)
 
 Voltage is analysed as a complementary monitoring variable.
 
@@ -234,6 +247,24 @@ It can answer three progressively more useful questions:
 Confirmed root-cause diagnosis would require integration with maintenance
 records and operating-context variables.
 
+## Documentation and Results
+
+Detailed statistical methodology:
+
+[`docs/methodology.md`](docs/methodology.md)
+
+Academic and domain references:
+
+[`docs/references.md`](docs/references.md)
+
+Aggregate visual results:
+
+[`results/`](results/)
+
+Public R implementation:
+
+[`R/`](R/)
+
 ## Repository Structure
 
 ```text
@@ -245,8 +276,7 @@ hitachi-battery-statistical-monitoring/
 │   ├── README.md
 │   ├── 01_cycle_level_feature_engineering.R
 │   ├── 02_coda_t2_control_chart.R
-│   ├── 03_voltage_sensitivity_analysis.R
-│   └── 04_synthetic_reproducibility_demo.R
+│   └── 03_voltage_sensitivity_analysis.R
 ├── docs/
 │   ├── methodology.md
 │   └── references.md
