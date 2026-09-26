@@ -1,3 +1,4 @@
+
 # Reinforcement Learning & Nonlinear MPC for a Dynamic Cournot Duopoly
 
 **Optimal production control under time-varying demand**
@@ -135,6 +136,8 @@ desirable action now changes with the demand cycle.
 
 ## 4. Uncontrolled Benchmark
 
+![Uncontrolled dynamics](results/uncontrolled_dynamics.png)
+
 The uncontrolled benchmark keeps:
 
 ```text
@@ -267,6 +270,8 @@ control variable.
 
 ## 8. Learned Demand-Responsive Policy
 
+![DQN control policy](results/dqn_control_policy.png)
+
 The trained DQN produces a control policy that changes across the 24-step
 market cycle.
 
@@ -328,6 +333,8 @@ observe current state
 
 ## 10. Nonlinear Model Predictive Control
 
+![NMPC control policy](results/nmpc_control_policy.png)
+
 The MPC controller uses a receding prediction horizon:
 
 ```text
@@ -380,6 +387,8 @@ prediction model and solves the optimization numerically.
 ---
 
 ## 12. RL vs NMPC
+
+![RL vs NMPC comparison](results/rl_vs_nmpc.png)
 
 A representative final comparison reported in the presentation is:
 
@@ -498,6 +507,24 @@ Natural extensions include:
 - sensitivity analysis of reward weights and prediction horizon.
 
 ---
+
+## Documentation and Results
+
+Detailed methodology:
+
+[`docs/methodology.md`](docs/methodology.md)
+
+Theoretical references:
+
+[`docs/references.md`](docs/references.md)
+
+Clean MATLAB implementation:
+
+[`matlab/`](matlab/)
+
+Aggregate results and figures:
+
+[`results/`](results/)
 
 ## Repository Structure
 
