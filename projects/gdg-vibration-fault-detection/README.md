@@ -50,6 +50,8 @@ Raw experimental files are not redistributed in this portfolio.
 
 ## 1. Physics Before Machine Learning
 
+![FFT condition comparison](results/fft_condition_comparison.png)
+
 The analysis starts with direct inspection of the raw time signals and FFT
 spectra.
 
@@ -95,6 +97,8 @@ rather than generated blindly.
 
 ## 3. Excitation Sensitivity
 
+![Excitation and channel sensitivity](results/sensitivity_analysis.png)
+
 A logistic-regression classifier is trained independently on each excitation
 pattern using a replica-based train/test split.
 
@@ -136,6 +140,8 @@ The Z axis is weaker alone, but improves the combined model, indicating that
 vertical vibration modes carry complementary information.
 
 ## 5. The Most Important Methodological Choice: Data Splitting
+
+![Generalization across validation splits](results/split_generalization.png)
 
 A naive random split would mix recordings from the same physical tests across
 training and test sets.
@@ -189,6 +195,8 @@ consistent with its more subtle physical condition and smaller sample size.
 
 ## 7. Generalization: Random Forest vs Logistic Regression
 
+![Model comparison across validation splits](results/model_comparison.png)
+
 | Split | Logistic Regression | Random Forest |
 |---|---:|---:|
 | Naive | 0.966 | 0.995 |
@@ -207,6 +215,8 @@ This is treated as evidence against selecting a model purely from one headline
 accuracy number.
 
 ## 8. Feature Importance and Physical Interpretation
+
+![Random Forest feature importance](results/feature_importance.png)
 
 Random Forest feature importance confirms that **spectral band energy** carries
 most of the discriminative information.
@@ -294,6 +304,20 @@ A deployment path would include:
 5. evaluate probability calibration and uncertainty;
 6. move from discrete condition classification toward continuous structural
    health scoring.
+
+## Documentation and Results
+
+Detailed methodology:
+
+[`docs/methodology.md`](docs/methodology.md)
+
+Technical notebook:
+
+[`notebooks/01_vibration_fault_detection.ipynb`](notebooks/01_vibration_fault_detection.ipynb)
+
+Aggregate results and figures:
+
+[`results/`](results/)
 
 ## Repository Structure
 
